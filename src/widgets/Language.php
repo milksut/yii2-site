@@ -21,17 +21,15 @@ class Language extends Widget
 
     public function init()
     {
-        if(!$this->icon){
-           // $this->icon = Html::tag('i', '', ['class' => '', 'style' => 'margin-right: 5px;']);
+        if (!$this->icon) {
         }
-         
 
         $this->options['class'] = 'placementWidget';
-        if($this->placement == 'top-to-bottom'){
-            $this->options['data-bs-placement'] = $this->placement; 
+        if ($this->placement == 'top-to-bottom') {
+            $this->options['data-bs-placement'] = $this->placement;
             $this->registerCss();
-
-        }if($this->placement == 'side-by-side'){
+        }
+        if ($this->placement == 'side-by-side') {
             $this->registerCss();
         }
 
@@ -45,20 +43,20 @@ class Language extends Widget
         $languages = Yii::$app->setting->getConfig('app::language');
         $langItems = [];
         $active = Yii::$app->language;
-        foreach ($languages as $key => $value){
+        foreach ($languages as $key => $value) {
             $langItems[] = [
                 'label' => Module::t($value),
-                'url' => ['/site/home/lang','lang' => $key],
+                'url' => ['/site/home/lang', 'lang' => $key],
                 'active' => $active == $key,
             ];
         }
 
         $menuItems[] = [
             'label' => $this->generateLabel("Language"),
-            'url' => ['/site/home/lang','lang' => Yii::$app->language],
+            'url' => ['/site/home/lang', 'lang' => Yii::$app->language],
             'items' => $langItems,
             'display' => $this->display,
-            'placement'=> $this->placement,
+            'placement' => $this->placement,
         ];
         return Nav::widget([
             'options' => $this->options,
@@ -69,24 +67,24 @@ class Language extends Widget
     private function generateLabel($text)
     {
         $label = "";
-            if(isset($this->display)){
-                switch ($this->display) {
-                    case MenuItem::TYPE_DISPLAY['icon']:
-                        $label = $this->icon;
-                        break;
-                    case MenuItem::TYPE_DISPLAY['icon-text']:
-                        $label = $this->icon . Module::t($text);
-                        break;
-                    case MenuItem::TYPE_DISPLAY['text']:
-                        $label = Module::t($text);
-                        break;
-                    default:
-                        $label = $this->icon . Module::t($text);
-                        break;
-                }
-            }else{
-                $label = $this->icon . Module::t($text);
+        if (isset($this->display)) {
+            switch ($this->display) {
+                case MenuItem::TYPE_DISPLAY['icon']:
+                    $label = $this->icon;
+                    break;
+                case MenuItem::TYPE_DISPLAY['icon-text']:
+                    $label = $this->icon . Module::t($text);
+                    break;
+                case MenuItem::TYPE_DISPLAY['text']:
+                    $label = Module::t($text);
+                    break;
+                default:
+                    $label = $this->icon . Module::t($text);
+                    break;
             }
+        } else {
+            $label = $this->icon . Module::t($text);
+        }
 
         return $label;
     }
@@ -104,7 +102,4 @@ class Language extends Widget
     CSS;
         $this->getView()->registerCss($css);
     }
-
-
-
 }

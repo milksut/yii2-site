@@ -6,7 +6,6 @@ use yii\base\Model;
 use portalium\site\Module;
 use Yii;
 use portalium\user\models\User;
-use portalium\storage\models\Storage;
 
 class ProfileForm extends Model
 {

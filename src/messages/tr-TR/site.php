@@ -131,6 +131,7 @@ return [
     /*Profile*/
     'Profile' => 'Profil',
     'Edit Profile' => 'Profili Düzenle',
+    'Change Password' => 'Şifreyi Düzenle',
     'First Name' => 'İsim',
     'Last Name' => 'Soy isim',
     'Current Password' => 'Eski Şifre',

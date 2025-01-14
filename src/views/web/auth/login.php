@@ -4,8 +4,6 @@ use portalium\site\bundles\AppAsset;
 use yii\helpers\Html;
 use portalium\theme\widgets\ActiveForm;
 use portalium\site\Module;
-use portalium\site\models\LoginForm;
-use portalium\user\models\User;
 
 $this->title = Module::t('Login');
 AppAsset::register($this);

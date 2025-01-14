@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php ActiveForm::end(); ?>
 
 <?php
- $form2 = ActiveForm::begin(['method' => 'post', 'action' => ['profile/edit-password']]); ?>
+$form2 = ActiveForm::begin(['method' => 'post', 'action' => ['profile/edit-password']]); ?>
 <?php Panel::begin([
     'title' => Html::encode(Module::t('Change Password')),
     'actions' => [

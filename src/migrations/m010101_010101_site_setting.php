@@ -18,6 +18,7 @@ class m010101_010101_site_setting extends Migration
             'type' => $this->tinyInteger(1)->notNull(),
             'config' => $this->text(),
             'is_preference' => $this->tinyInteger(1)->defaultValue(0), // Boolean attribute
+            'timezone' => $this->string(64),
             'date_create' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'date_update' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP')->append('ON UPDATE NOW()'),
         ]);
@@ -37,7 +38,7 @@ class m010101_010101_site_setting extends Migration
             'label' => 'Language',
             'value' => 'en-US',
             'type' => Form::TYPE_DROPDOWNLIST,
-            'config' => json_encode([ 'en-US' => 'English','tr-TR' => 'Turkish'])
+            'config' => json_encode(['en-US' => 'English', 'tr-TR' => 'Turkish'])
         ]);
 
         $this->insert(Module::$tablePrefix . 'setting', [
@@ -50,7 +51,7 @@ class m010101_010101_site_setting extends Migration
                 'model' => [
                     'class' => 'portalium\content\models\Content',
                     'map' => [
-                        'key' => 'id_content' ,
+                        'key' => 'id_content',
                         'value' => 'name'
                     ],
                     'where' => [
@@ -117,7 +118,7 @@ class m010101_010101_site_setting extends Migration
             'label' => 'Signup Form',
             'value' => '1',
             'type' => Form::TYPE_RADIOLIST,
-            'config' => json_encode([ 1 => 'Show', 0 => 'Hide'])
+            'config' => json_encode([1 => 'Show', 0 => 'Hide'])
         ]);
 
         $this->insert(Module::$tablePrefix . 'setting', [
@@ -126,7 +127,7 @@ class m010101_010101_site_setting extends Migration
             'label' => 'Login Form',
             'value' => '1',
             'type' => Form::TYPE_RADIOLIST,
-            'config' => json_encode([ 1 => 'Show', 0 => 'Hide'])
+            'config' => json_encode([1 => 'Show', 0 => 'Hide'])
         ]);
 
         $this->insert(Module::$tablePrefix . 'setting', [
@@ -135,16 +136,16 @@ class m010101_010101_site_setting extends Migration
             'label' => 'Contact Form',
             'value' => '1',
             'type' => Form::TYPE_RADIOLIST,
-            'config' => json_encode([ 1 => 'Show', 0 => 'Hide'])
+            'config' => json_encode([1 => 'Show', 0 => 'Hide'])
         ]);
-        
+
         $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',
             'name' => 'api::signup',
             'label' => 'API Signup',
             'value' => '1',
             'type' => Form::TYPE_RADIOLIST,
-            'config' => json_encode([ 1 => 'Allow', 0 => 'Deny'])
+            'config' => json_encode([1 => 'Allow', 0 => 'Deny'])
         ]);
 
         $this->insert(Module::$tablePrefix . 'setting', [
@@ -153,7 +154,7 @@ class m010101_010101_site_setting extends Migration
             'label' => 'API Login',
             'value' => '1',
             'type' => Form::TYPE_RADIOLIST,
-            'config' => json_encode([ 1 => 'Allow', 0 => 'Deny'])
+            'config' => json_encode([1 => 'Allow', 0 => 'Deny'])
         ]);
 
         $this->insert(Module::$tablePrefix . 'setting', [
@@ -197,7 +198,7 @@ class m010101_010101_site_setting extends Migration
             'label' => 'Register Confirmation',
             'value' => '1',
             'type' => Form::TYPE_RADIOLIST,
-            'config' => json_encode([ 1 => 'Email Confirmation', 0 => 'Disable'])
+            'config' => json_encode([1 => 'Email Confirmation', 0 => 'Disable'])
         ]);
         $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',
@@ -205,9 +206,9 @@ class m010101_010101_site_setting extends Migration
             'label' => 'User Registration Status',
             'value' => '10',
             'type' => Form::TYPE_RADIOLIST,
-            'config' => json_encode([ 10 => 'Active', 20 => 'Passive'])
+            'config' => json_encode([10 => 'Active', 20 => 'Passive'])
         ]);
-        
+
         $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',
             'name' => 'smtp::port',
@@ -226,7 +227,7 @@ class m010101_010101_site_setting extends Migration
             'config' => ''
         ]);
 
-        $this->insert(Module::$tablePrefix . 'setting',[
+        $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',
             'name' => 'smtp::password',
             'label' => 'SMTP Password',
@@ -241,7 +242,7 @@ class m010101_010101_site_setting extends Migration
             'label' => 'SMTP Encryption',
             'value' => 'ssl',
             'type' => Form::TYPE_RADIOLIST,
-            'config' => json_encode(['ssl' => 'SSL','tls' => 'TLS'])
+            'config' => json_encode(['ssl' => 'SSL', 'tls' => 'TLS'])
         ]);
 
         $this->insert(Module::$tablePrefix . 'setting', [
@@ -250,9 +251,26 @@ class m010101_010101_site_setting extends Migration
             'label' => 'ReCaptcha',
             'value' => '1',
             'type' => Form::TYPE_RADIOLIST,
-            'config' =>  json_encode([ 1 => 'Allow', 0 => 'Deny'])
+            'config' =>  json_encode([1 => 'Allow', 0 => 'Deny'])
         ]);
 
+        $this->insert(Module::$tablePrefix . 'setting', [
+            'module' => 'site',
+            'name' => 'site::timezone',
+            'label' => 'Timezone',
+            'value' => null,
+            'type' => Form::TYPE_DROPDOWNLIST,
+            'config' => json_encode([
+                'method' => [
+                    'class' => 'portalium\site\components\TimeZoneHelper',
+                    'name' => 'getFormattedTimeZones',
+                    'map' => [
+                        'key' => 'timezone',
+                        'value' => 'name'
+                    ]
+                ]
+            ])
+        ]);
     }
 
     public function down()

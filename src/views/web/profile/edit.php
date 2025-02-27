@@ -41,10 +41,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?= $form->field($modelProfile, 'access_token', [
     'template' => '{label}<div class="col-sm-10"><div class="input-group">{input}
-        <span class="input-group-text p-1" id="toggleAccessToken" style="cursor: pointer; font-size: medium">
+        <span class="input-group-text p-1" title="' . Module::t('Show/Hide') . '"id="toggleAccessToken" style="cursor: pointer; font-size: medium">
             <i class="fa fa-eye-slash" id="eyeIcon"></i>
         </span>
-        <span class="input-group-text p-1" title="Regenerate" id="regenerateTokenButton" style="cursor: pointer;font-size: medium">
+        <span class="input-group-text p-1" title="' . Module::t('Regenerate') . '" id="regenerateTokenButton" style="cursor: pointer;font-size: medium">
             <i class="fa fa-key"></i>
         </span>
     </div>{error}</div>',
@@ -54,8 +54,10 @@ $this->params['breadcrumbs'][] = $this->title;
     'maxlength' => true,
     'readonly' => true,
     'id' => 'accessTokenInput',
-    'type' => 'password'
+    'type' => 'password',
+    'title' => Module::t('Access Token')
 ]) ?>
+
 
 <?php Panel::end() ?>
 <?php ActiveForm::end(); ?>

@@ -78,31 +78,32 @@ class ProfileController extends WebController
 
     public function actionRegenerateToken()
     {
-        if (Yii::$app->request->isAjax) {
-            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if (!Yii::$app->request->isAjax) {
+            return;
+        }
 
-            $user = User::findOne(Yii::$app->user->identity->id_user);
-            if ($user) {
-                $newToken = Yii::$app->security->generateRandomString(32);
-                $user->access_token = $newToken;
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $user = User::findOne(Yii::$app->user->identity->id_user);
 
-                if ($user->save()) {
-                    return [
-                        'success' => true,
-                        'token' => $newToken,
-                        'message' => 'Token was renewed successfully.'
-                    ];
-                } else {
-                    return [
-                        'success' => false,
-                        'message' => 'An error occurred while saving the token: ' . implode(', ', $user->getFirstErrors())
-                    ];
-                }
+        if ($user) {
+            $newToken = Yii::$app->security->generateRandomString(32);
+            $user->access_token = $newToken;
+
+            if ($user->save()) {
+                return [
+                    'success' => true,
+                    'token' => $newToken,
+                    'message' => 'Token was renewed successfully.'
+                ];
             }
             return [
                 'success' => false,
-                'message' => 'User not found.'
+                'message' => 'An error occurred while saving the token: ' . implode(', ', $user->getFirstErrors())
             ];
         }
+        return [
+            'success' => false,
+            'message' => 'User not found.'
+        ];
     }
 }

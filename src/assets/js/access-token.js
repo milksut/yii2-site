@@ -10,23 +10,21 @@ $(document).ready(function() {
                 },
                 dataType: 'json',
                 success: function(response) {
-                    console.log('Response received:', response);
                     if (response.success) {
                         $('#accessTokenInput').val(response.token);
                         $('input[name="ProfileForm[access_token]"]').val(response.token);
-                        alert(response.message);
+                        location.reload();
                     } else {
-                        alert('Hata: ' + response.message);
+                        location.reload();
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error('AJAX error:', status, error);
-                    console.log('Response text:', xhr.responseText);
-                    alert('An error occurred: ' + status + ' - ' + error);
+                    location.reload();
                 }
             });
         }
     });
+});
     $(document).on('click', '#toggleAccessToken', function() {
         var input = $('#accessTokenInput');
         var icon = $('#eyeIcon');
@@ -39,4 +37,5 @@ $(document).ready(function() {
             icon.removeClass('fa-eye').addClass('fa-eye-slash');
         }
     });
-});
+
+

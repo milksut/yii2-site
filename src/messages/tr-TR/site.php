@@ -143,4 +143,11 @@ return [
     'You are not allowed to access this page.' => 'Bu sayfaya erişmenize izin verilmiyor.',
     'New Password' => 'Yeni Şifre',
     'Change Password' => 'Şifreyi Değiştir',
+    'The token will be refreshed. This may affect existing API connections. Do you approve?' => 'Token yenilenecek. Bu mevcut API bağlantılarını etkileyebilir. Onaylıyor musunuz?',
+    'Token was renewed successfully.' => 'Token başarıyla yenilendi.',
+    'An error occurred while saving the token:' => 'Token kaydedilirken bir hata oluştu:',
+    'User not found.' => 'Kullanıcı bulunamadı.',
+    'Show/Hide' => 'Göster/Gizle',
+    'Regenerate' => 'Yeniden Oluştur',
+    'Access Token' => 'Erişim Anahtarı'
 ];

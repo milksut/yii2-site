@@ -25,24 +25,43 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     ],
 ]) ?>
-     
-    <?= $form->field($modelProfile, 'first_name')->label(Module::t('First Name'))->textInput(['maxlength' => true]) ?>
-    <?= $form->field($modelProfile, 'last_name')->label(Module::t('Last Name'))->textInput(['maxlength' => true]) ?>
-    <?= $form->field($modelProfile, 'username')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($modelProfile, 'email')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($modelProfile, 'id_avatar')->label(Module::t('Avatar'))->widget("\portalium\storage\widgets\FilePicker", [
-        'multiple' => 0,
-        'attributes' => ['id_storage'],
-        'name' => 'app::logo_wide',
-        'isPicker' => true,
-        'isJson' => false
-    ]) ?>
-    
+
+<?= $form->field($modelProfile, 'first_name')->label(Module::t('First Name'))->textInput(['maxlength' => true]) ?>
+<?= $form->field($modelProfile, 'last_name')->label(Module::t('Last Name'))->textInput(['maxlength' => true]) ?>
+<?= $form->field($modelProfile, 'username')->textInput(['maxlength' => true]) ?>
+<?= $form->field($modelProfile, 'email')->textInput(['maxlength' => true]) ?>
+<?= $form->field($modelProfile, 'id_avatar')->label(Module::t('Avatar'))->widget("\portalium\storage\widgets\FilePicker", [
+    'multiple' => 0,
+    'attributes' => ['id_storage'],
+    'name' => 'app::logo_wide',
+    'isPicker' => true,
+    'isJson' => false
+]) ?>
+
+
+<?= $form->field($modelProfile, 'access_token', [
+    'template' => '{label}<div class="col-sm-10"><div class="input-group">{input}
+        <span class="input-group-text p-1" id="toggleAccessToken" style="cursor: pointer; font-size: medium">
+            <i class="fa fa-eye-slash" id="eyeIcon"></i>
+        </span>
+        <span class="input-group-text p-1" title="Regenerate" id="regenerateTokenButton" style="cursor: pointer;font-size: medium">
+            <i class="fa fa-key"></i>
+        </span>
+    </div>{error}</div>',
+    'labelOptions' => ['class' => 'col-sm-2 col-form-label'],
+    'errorOptions' => ['class' => 'invalid-feedback'],
+])->textInput([
+    'maxlength' => true,
+    'readonly' => true,
+    'id' => 'accessTokenInput',
+    'type' => 'password'
+]) ?>
+
 <?php Panel::end() ?>
 <?php ActiveForm::end(); ?>
 
 <?php
- $form2 = ActiveForm::begin(['method' => 'post', 'action' => ['profile/edit-password']]); ?>
+$form2 = ActiveForm::begin(['method' => 'post', 'action' => ['profile/edit-password']]); ?>
 <?php Panel::begin([
     'title' => Html::encode(Module::t('Change Password')),
     'actions' => [
@@ -52,10 +71,10 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     ],
 ]) ?>
-       
-    
-    <?= $form2->field($modelPassword, 'old_password')->label(Module::t('Current Password'))->passwordInput(['class' => 'form-control form-control-lg']) ?>
-    <?= $form2->field($modelPassword, 'password')->passwordInput(['class' => 'form-control form-control-lg']) ?>
-    
+
+
+<?= $form2->field($modelPassword, 'old_password')->label(Module::t('Current Password'))->passwordInput(['class' => 'form-control form-control-lg']) ?>
+<?= $form2->field($modelPassword, 'password')->passwordInput(['class' => 'form-control form-control-lg']) ?>
+
 <?php Panel::end() ?>
 <?php ActiveForm::end(); ?>

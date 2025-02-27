@@ -27,7 +27,7 @@ class ProfileController extends WebController
         $modelProfile->last_name = $user->last_name;
         $modelProfile->email = $user->email;
         $modelProfile->id_avatar=$user->id_avatar;
-
+        $modelProfile->access_token = $user->access_token;
 
 
         if ($modelProfile->load(Yii::$app->request->post())) {
@@ -74,5 +74,35 @@ class ProfileController extends WebController
             'modelPassword' => $modelPassword,
             'modelProfile' => $modelProfile,
         ]);
+    }
+
+    public function actionRegenerateToken()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+            $user = User::findOne(Yii::$app->user->identity->id_user);
+            if ($user) {
+                $newToken = Yii::$app->security->generateRandomString(32);
+                $user->access_token = $newToken;
+
+                if ($user->save()) {
+                    return [
+                        'success' => true,
+                        'token' => $newToken,
+                        'message' => 'Token was renewed successfully.'
+                    ];
+                } else {
+                    return [
+                        'success' => false,
+                        'message' => 'An error occurred while saving the token: ' . implode(', ', $user->getFirstErrors())
+                    ];
+                }
+            }
+            return [
+                'success' => false,
+                'message' => 'User not found.'
+            ];
+        }
     }
 }

@@ -8,7 +8,10 @@ class ProfileAsset extends AssetBundle
 {
     public $sourcePath= '@vendor/portalium/yii2-site/src/assets/';
     public $css = [
-        'css/profile.css'
+        'css/profile.css',
+    ];
+    public $js = [
+        'js/access-token.js',
     ];
     public $publishOptions = [
         'forceCopy' => YII_DEBUG,

@@ -6,6 +6,8 @@ class m010101_010101_site_rbac extends Migration
     public function up()
     {
         $auth = Yii::$app->authManager;
+
+        $auth = Yii::$app->authManager;
         $admin = $auth->createRole('admin');
         $admin->description = 'Admin';
         $auth->add($admin);

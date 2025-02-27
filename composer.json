@@ -16,7 +16,7 @@
 	},
 	"require": {
 		"portalium/yii2-bootstrap5": "*",
-		"himiklab/yii2-recaptcha-widget" : "*",
+		"himiklab/yii2-recaptcha-widget" : "*"
 	},
 	"autoload" : {
 		"psr-4" : {

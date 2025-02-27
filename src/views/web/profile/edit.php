@@ -38,15 +38,20 @@ $this->params['breadcrumbs'][] = $this->title;
     'isJson' => false
 ]) ?>
 
-
 <?= $form->field($modelProfile, 'access_token', [
     'template' => '{label}<div class="col-sm-10"><div class="input-group">{input}
-        <span class="input-group-text p-1" title="' . Module::t('Show/Hide') . '"id="toggleAccessToken" style="cursor: pointer; font-size: medium">
+        <span class="input-group-text p-1" title="' . Module::t('Show/Hide') . '" id="toggleAccessToken" style="cursor: pointer; font-size: medium">
             <i class="fa fa-eye-slash" id="eyeIcon"></i>
         </span>
-        <span class="input-group-text p-1" title="' . Module::t('Regenerate') . '" id="regenerateTokenButton" style="cursor: pointer;font-size: medium">
-            <i class="fa fa-key"></i>
-        </span>
+        <a href="regenerate-token?id=' . $modelProfile->id.'" 
+           data-method="post" 
+           data-confirm="' . Module::t('The token will be refreshed. This may affect existing API connections. Do you approve?') . '" 
+           class="input-group-text p-1" 
+           title="' . Module::t('Regenerate') . '" 
+           id="regenerateTokenButton" 
+           style="cursor: pointer; font-size: medium">
+            <i class="fa fa-refresh"></i>
+        </a>
     </div>{error}</div>',
     'labelOptions' => ['class' => 'col-sm-2 col-form-label'],
     'errorOptions' => ['class' => 'invalid-feedback'],

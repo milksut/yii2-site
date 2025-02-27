@@ -10,6 +10,7 @@ use portalium\storage\models\Storage;
 
 class ProfileForm extends Model
 {
+    public $id;
     public $username;
     public $first_name;
     public $last_name;
@@ -34,6 +35,7 @@ class ProfileForm extends Model
             ['last_name', 'safe'],
             ['id_avatar', 'safe'],
             ['access_token', 'safe'],
+            ['id_user', 'safe']
         ];
 
         return $rules;

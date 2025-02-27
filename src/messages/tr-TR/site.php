@@ -144,9 +144,8 @@ return [
     'New Password' => 'Yeni Şifre',
     'Change Password' => 'Şifreyi Değiştir',
     'The token will be refreshed. This may affect existing API connections. Do you approve?' => 'Token yenilenecek. Bu mevcut API bağlantılarını etkileyebilir. Onaylıyor musunuz?',
-    'Token was renewed successfully.' => 'Token başarıyla yenilendi.',
-    'An error occurred while saving the token:' => 'Token kaydedilirken bir hata oluştu:',
-    'User not found.' => 'Kullanıcı bulunamadı.',
+    'Your token has been successfully generated!' => 'Token başarıyla oluşturuldu!',
+    'Your token could not be generated!' => 'Token oluşturulamadı!',
     'Show/Hide' => 'Göster/Gizle',
     'Regenerate' => 'Yeniden Oluştur',
     'Access Token' => 'Erişim Anahtarı'

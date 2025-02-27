@@ -22,12 +22,14 @@ class ProfileController extends WebController
         $modelPassword = new ProfilePasswordForm();
 
         $user = User::findOne(Yii::$app->user->identity->id_user);
+        $modelProfile->id = $user->id;
         $modelProfile->username = $user->username;
         $modelProfile->first_name = $user->first_name;
         $modelProfile->last_name = $user->last_name;
         $modelProfile->email = $user->email;
         $modelProfile->id_avatar=$user->id_avatar;
         $modelProfile->access_token = $user->access_token;
+
 
 
         if ($modelProfile->load(Yii::$app->request->post())) {
@@ -76,34 +78,23 @@ class ProfileController extends WebController
         ]);
     }
 
-    public function actionRegenerateToken()
+    public function actionRegenerateToken($id)
     {
-        if (!Yii::$app->request->isAjax) {
-            return;
+        if (!\Yii::$app->user->can('siteWebProfileRegenerateToken')) {
+            throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
+        }
+        $user = User::findOne($id);
+
+        if (($user->access_token = Yii::$app->security->generateRandomString(32)) && ($user->save()))
+        {
+            Yii::$app->session->setFlash('success', Module::t('Your token has been successfully generated!'));
+        }
+        else
+        {
+            Yii::$app->session->setFlash('error', Module::t('Your token could not be generated!'));
         }
 
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $user = User::findOne(Yii::$app->user->identity->id_user);
+        return $this->redirect('edit');
 
-        if ($user) {
-            $newToken = Yii::$app->security->generateRandomString(32);
-            $user->access_token = $newToken;
-
-            if ($user->save()) {
-                return [
-                    'success' => true,
-                    'token' => $newToken,
-                    'message' => 'Token was renewed successfully.'
-                ];
-            }
-            return [
-                'success' => false,
-                'message' => 'An error occurred while saving the token: ' . implode(', ', $user->getFirstErrors())
-            ];
-        }
-        return [
-            'success' => false,
-            'message' => 'User not found.'
-        ];
     }
 }

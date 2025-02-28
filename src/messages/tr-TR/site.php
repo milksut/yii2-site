@@ -148,5 +148,6 @@ return [
     'Your token could not be generated!' => 'Token oluşturulamadı!',
     'Show/Hide' => 'Göster/Gizle',
     'Regenerate' => 'Yeniden Oluştur',
-    'Access Token' => 'Erişim Anahtarı'
+    'Access Token' => 'Erişim Anahtarı',
+    'Keys' => 'Anahtarlar'
 ];

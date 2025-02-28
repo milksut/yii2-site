@@ -9,7 +9,6 @@ use portalium\site\Module;
 /* @var $model portalium\content\models\Content */
 /* @var $form yii\widgets\ActiveForm */
 
-$context = $this->context;
 $this->title = Module::t('Edit Account');
 $this->params['breadcrumbs'][] = ['label' => Module::t('Setting'), 'url' => ['setting/index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -18,12 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php $form = ActiveForm::begin(['method' => 'post', 'action' => ['profile/edit']]); ?>
 <?php Panel::begin([
     'title' => Html::encode(Module::t('Edit Profile')),
-    'actions' => [
-        'header' => [],
-        'footer' => [
-            Html::submitButton(Module::t('Save'), ['class' => 'btn btn-success']),
-        ]
-    ],
 ]) ?>
 
 <?= $form->field($modelProfile, 'first_name')->label(Module::t('First Name'))->textInput(['maxlength' => true]) ?>
@@ -38,37 +31,45 @@ $this->params['breadcrumbs'][] = $this->title;
     'isJson' => false
 ]) ?>
 
-<?= $form->field($modelProfile, 'access_token', [
+    <div class="text-end">
+        <?= Html::submitButton(Module::t('Save'), ['class' => 'btn btn-success']) ?>
+    </div>
+
+<?php Panel::end() ?>
+<?php ActiveForm::end(); ?>
+
+<?php $accessTokenForm = ActiveForm::begin(['method' => 'post', 'action' => ['profile/regenerate-token']]); ?>
+<?php Panel::begin([
+    'title' => Html::encode(Module::t('Keys')),
+]) ?>
+
+<?= $accessTokenForm->field($modelProfile, 'access_token', [
     'template' => '{label}<div class="col-sm-10"><div class="input-group">{input}
-        <span class="input-group-text p-1" title="' . Module::t('Show/Hide') . '" id="toggleAccessToken" style="cursor: pointer; font-size: medium">
+        <span class="input-group-text" title="' . Module::t('Show/Hide') . '" id="toggleAccessToken" style="cursor: pointer">
             <i class="fa fa-eye-slash" id="eyeIcon"></i>
         </span>
         <a href="regenerate-token?id=' . $modelProfile->id.'" 
            data-method="post" 
            data-confirm="' . Module::t('The token will be refreshed. This may affect existing API connections. Do you approve?') . '" 
-           class="input-group-text p-1" 
+           class="input-group-text" 
            title="' . Module::t('Regenerate') . '" 
            id="regenerateTokenButton" 
-           style="cursor: pointer; font-size: medium">
+           style="cursor: pointer">
             <i class="fa fa-refresh"></i>
         </a>
     </div>{error}</div>',
     'labelOptions' => ['class' => 'col-sm-2 col-form-label'],
-    'errorOptions' => ['class' => 'invalid-feedback'],
 ])->textInput([
-    'maxlength' => true,
     'readonly' => true,
     'id' => 'accessTokenInput',
     'type' => 'password',
-    'title' => Module::t('Access Token')
 ]) ?>
-
 
 <?php Panel::end() ?>
 <?php ActiveForm::end(); ?>
 
 <?php
-$form2 = ActiveForm::begin(['method' => 'post', 'action' => ['profile/edit-password']]); ?>
+$changePassForm = ActiveForm::begin(['method' => 'post', 'action' => ['profile/edit-password']]); ?>
 <?php Panel::begin([
     'title' => Html::encode(Module::t('Change Password')),
     'actions' => [
@@ -80,8 +81,8 @@ $form2 = ActiveForm::begin(['method' => 'post', 'action' => ['profile/edit-passw
 ]) ?>
 
 
-<?= $form2->field($modelPassword, 'old_password')->label(Module::t('Current Password'))->passwordInput(['class' => 'form-control form-control-lg']) ?>
-<?= $form2->field($modelPassword, 'password')->passwordInput(['class' => 'form-control form-control-lg']) ?>
+<?= $changePassForm->field($modelPassword, 'old_password')->label(Module::t('Current Password'))->passwordInput(['class' => 'form-control form-control-lg']) ?>
+<?= $changePassForm->field($modelPassword, 'password')->passwordInput(['class' => 'form-control form-control-lg']) ?>
 
 <?php Panel::end() ?>
 <?php ActiveForm::end(); ?>

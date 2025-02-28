@@ -82,6 +82,14 @@ class m211115_010204_profile_rbac extends Migration
         $auth->add($siteWebProfileRegenerateToken);
         $auth->addChild($admin, $siteWebProfileRegenerateToken);
 
+        $siteWebProfileRegenerateTokenOwn = $auth->createPermission('siteWebProfileRegenerateTokenOwn');
+        $siteWebProfileRegenerateTokenOwn->description = 'Site Web Profile Regenerate Token Own';
+        $siteWebProfileRegenerateTokenOwn->ruleName = $rule->name;
+        $auth->add($siteWebProfileRegenerateTokenOwn);
+        $auth->addChild($admin, $siteWebProfileRegenerateTokenOwn);
+        $siteWebProfileRegenerateToken = $auth->getPermission('siteWebProfileRegenerateToken');
+        $auth->addChild($siteWebProfileRegenerateTokenOwn, $siteWebProfileRegenerateToken);
+
     }
     public function down()
     {
@@ -91,7 +99,7 @@ class m211115_010204_profile_rbac extends Migration
         $auth->remove($auth->getPermission('siteWebProfileEditPassword'));
         $auth->remove($auth->getPermission('siteWebProfileEdit'));
         $auth->remove($auth->getPermission('siteWebProfileRegenerateToken'));
-
+        $auth->remove($auth->getPermission('siteOwnWebProfileRegenerateToken'));
         $auth->remove($auth->getPermission('siteOwnApiProfileEditPassword'));
         $auth->remove($auth->getPermission('siteOwnApiProfileEdit'));
         $auth->remove($auth->getPermission('siteOwnWebProfileEditPassword'));

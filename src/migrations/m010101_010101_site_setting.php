@@ -17,8 +17,7 @@ class m010101_010101_site_setting extends Migration
             'value' => $this->text(),
             'type' => $this->tinyInteger(1)->notNull(),
             'config' => $this->text(),
-            'is_preference' => $this->tinyInteger(1)->defaultValue(0), // Boolean attribute
-            'timezone' => $this->string(64),
+            'is_preference' => $this->tinyInteger(1)->defaultValue(0),
             'date_create' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'date_update' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP')->append('ON UPDATE NOW()'),
         ]);
@@ -258,24 +257,6 @@ class m010101_010101_site_setting extends Migration
             'name' => 'site::timezone',
             'label' => 'Timezone',
             'value' => 'UTC',
-            'type' => Form::TYPE_DROPDOWNLIST,
-            'config' => json_encode([
-                'method' => [
-                    'class' => 'portalium\site\components\TimeZoneHelper',
-                    'name' => 'getFormattedTimeZones',
-                    'map' => [
-                        'key' => 'timezone',
-                        'value' => 'name'
-                    ]
-                ]
-            ])
-        ]);
-
-        $this->insert(Module::$tablePrefix . 'setting', [
-            'module' => 'site',
-            'name' => 'site::timezone',
-            'label' => 'Timezone',
-            'value' => null,
             'type' => Form::TYPE_DROPDOWNLIST,
             'config' => json_encode([
                 'method' => [

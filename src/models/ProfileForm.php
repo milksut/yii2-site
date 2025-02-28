@@ -10,11 +10,13 @@ use portalium\storage\models\Storage;
 
 class ProfileForm extends Model
 {
+    public $id;
     public $username;
     public $first_name;
     public $last_name;
     public $email;
     public $id_avatar;
+    public $access_token;
 
     public function rules()
     {
@@ -32,6 +34,8 @@ class ProfileForm extends Model
             ['first_name', 'safe'],
             ['last_name', 'safe'],
             ['id_avatar', 'safe'],
+            ['access_token', 'safe'],
+            ['id_user', 'safe']
         ];
 
         return $rules;
@@ -45,6 +49,7 @@ class ProfileForm extends Model
             'last_name' => Module::t('Last Name'),
             'username' => Module::t('Username'),
             'email' => Module::t('Email'),
+            'access_token' => Module::t('Access Token'),
         ];
     }
   
@@ -63,6 +68,7 @@ class ProfileForm extends Model
             $user->username = $this->username;
             $user->email = $this->email;
             $user->id_avatar = $this->id_avatar;
+            $user->access_token = $this->access_token;
             return $user->save();
         }
     }

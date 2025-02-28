@@ -269,24 +269,6 @@ class m010101_010101_site_setting extends Migration
                 ]
             ])
         ]);
-
-        $this->insert(Module::$tablePrefix . 'setting', [
-            'module' => 'site',
-            'name' => 'site::timezone',
-            'label' => 'Timezone',
-            'value' => null,
-            'type' => Form::TYPE_DROPDOWNLIST,
-            'config' => json_encode([
-                'method' => [
-                    'class' => 'portalium\site\components\TimeZoneHelper',
-                    'name' => 'getFormattedTimeZones',
-                    'map' => [
-                        'key' => 'timezone',
-                        'value' => 'name'
-                    ]
-                ]
-            ])
-        ]);
     }
 
     public function down()

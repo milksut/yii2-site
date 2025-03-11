@@ -52,6 +52,7 @@ return [
     'Check your email for further instructions.' => 'Ayrıntılı bilgi için e-posta adresinizi kontrol edin.',
     'Sorry, we are unable to reset password for the provided email address.' => 'Maalesef, ilgili e-posta adresi için şifreyi sıfırlayamıyoruz.',
     'New password saved.' => 'Yeni şifreniz kaydedildi.',
+
     /* Setting */
     'Title' => 'Başlık',
     'Language' => 'Dil',
@@ -60,11 +61,11 @@ return [
     'About Page' => 'Hakkımızda Sayfası',
     'Login Page' => 'Giriş Sayfası',
     'Contact Page' => 'İletişim Sayfası',
-    'Email Address' => 'Eposta Adresi',
-    'Email Display Name' => 'Eposta Görünür İsim',
+    'Email Address' => 'E-posta Adresi',
+    'Email Display Name' => 'E-posta Görünür İsim',
     'SMTP Server' => 'SMTP Sunucusu',
     'SMTP Port' => 'SMTP Port',
-    'SMTP Username' => 'SMTP Kullnıcı Adı',
+    'SMTP Username' => 'SMTP Kullanıcı Adı',
     'SMTP Password' => 'SMTP Şifre',
     'SMTP Encryption' => 'SMTP Şifreleme',
     'Save' => 'Kaydet',
@@ -84,6 +85,10 @@ return [
     'Register Confirmation' => 'Kayıt Onayı',
     'User Registration Status' => 'Kullanıcı Kayıt Durumu',
     'Default Admin Role' => 'Varsayılan Yönetici Rolü',
+    'Timezone' => 'Zaman Dilimi',
+    'Active' => 'Aktif',
+    'Passive' => 'Pasif',
+
     /* Error */
     'The above error occurred while the Web server was processing your request.' => 'Web sunucusu isteğinizi işlerken yukarıdaki hata oluştu.',
     'Please contact us if you think this is a server error.' => 'Bunun bir sunucu hatası olduğunu düşünüyorsanız lütfen bizimle iletişime geçin.',
@@ -149,5 +154,6 @@ return [
     'Show/Hide' => 'Göster/Gizle',
     'Regenerate' => 'Yeniden Oluştur',
     'Access Token' => 'Erişim Anahtarı',
-    'Keys' => 'Anahtarlar'
+    'Keys' => 'Anahtarlar',
+    'Send' => 'Gönder',
 ];

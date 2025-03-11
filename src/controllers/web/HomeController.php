@@ -18,7 +18,7 @@ class HomeController extends WebController
     {
         $behaviors = parent::behaviors();
 
-        $behaviors['access']['except'] = ['index'];
+        $behaviors['access']['except'] = ['index', 'lang'];
         return $behaviors;
     }
 

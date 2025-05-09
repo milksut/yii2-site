@@ -18,19 +18,16 @@ class ProfileController extends WebController
             throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
         }
 
+        if (($user = User::findOne(Yii::$app->user->identity->id_user)) === null) {
+            throw new \yii\web\NotFoundHttpException(Module::t('The requested page does not exist.'));
+        }
+
         $modelProfile = new ProfileForm();
         $modelPassword = new ProfilePasswordForm();
 
-        $user = User::findOne(Yii::$app->user->identity->id_user);
-        $modelProfile->username = $user->username;
-        $modelProfile->first_name = $user->first_name;
-        $modelProfile->last_name = $user->last_name;
-        $modelProfile->email = $user->email;
-        $modelProfile->id_avatar=$user->id_avatar;
+        $modelProfile->load($user->attributes, '');
 
-
-
-        if ($modelProfile->load(Yii::$app->request->post())) {
+        if ($modelProfile->load($modelProfile->filterPostData((Yii::$app->request->post('ProfileForm'))))) {
             if ($modelProfile->updateUser()) {
                 Yii::$app->session->addFlash('success', Module::t('Your profile has been successfully updated!'));
             }
@@ -49,18 +46,16 @@ class ProfileController extends WebController
             throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
         }
 
+        if (($user = User::findOne(Yii::$app->user->identity->id_user)) === null) {
+            throw new \yii\web\NotFoundHttpException(Module::t('The requested page does not exist.'));
+        }
+
         $modelPassword = new  ProfilePasswordForm();
         $modelProfile = new ProfileForm();
 
-        $user = User::findOne(Yii::$app->user->identity->id_user);
-        $modelProfile->username = $user->username;
-        $modelProfile->first_name = $user->first_name;
-        $modelProfile->last_name = $user->last_name;
-        $modelProfile->email = $user->email;
-        $modelProfile->id_avatar=$user->id_avatar;
+        $modelProfile->load($user->attributes, '');
 
-
-        if ($modelPassword->load(Yii::$app->request->post())) {
+        if ($modelPassword->load($modelProfile->filterPostData(Yii::$app->request->post('ProfilePasswordForm')), '')) {
             if ($modelPassword->updatePassword()) {
                 Yii::$app->session->addFlash('success', Module::t('Your password has been successfully updated'));
                 $modelPassword = new ProfilePasswordForm();

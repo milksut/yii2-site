@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     ],
 ]) ?>
-     
+
     <?= $form->field($modelProfile, 'first_name')->label(Module::t('First Name'))->textInput(['maxlength' => true]) ?>
     <?= $form->field($modelProfile, 'last_name')->label(Module::t('Last Name'))->textInput(['maxlength' => true]) ?>
     <?= $form->field($modelProfile, 'username')->textInput(['maxlength' => true]) ?>
@@ -37,6 +37,31 @@ $this->params['breadcrumbs'][] = $this->title;
         'isPicker' => true,
         'isJson' => false
     ]) ?>
+    <?php
+    $inputTemplate = ['template' => '{label}<div class="col-sm-10">{input}<i class="fa fa-eye-slash hidden-access" style="cursor: pointer; position: absolute; right: 40px; margin-top: -22px;"></i></div>{error}{hint}'];
+    ?>
+    <?= $form->field($modelProfile, 'access_token', $inputTemplate)->label(Module::t('Access Token'))->passwordInput(['maxlength' => true, 'id' => 'access-token-input', 'disabled' => true]) ?>
+    
+
+    <?php
+    $script = <<< JS
+        $('.hidden-access').click(function() {
+            if ($(this).hasClass('fa-eye-slash')) {
+                $(this).removeClass('fa-eye-slash');
+                $(this).addClass('fa-eye');
+                $('#access-token-input').attr('type', 'text');
+                
+            } else {
+                $(this).removeClass('fa-eye');
+                $(this).addClass('fa-eye-slash');
+                $('#access-token-input').attr('type', 'password');
+                
+            }
+        });
+    JS;
+    $this->registerJs($script);
+    ?>
+    
     
 <?php Panel::end() ?>
 <?php ActiveForm::end(); ?>

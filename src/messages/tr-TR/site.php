@@ -88,6 +88,8 @@ return [
     'Timezone' => 'Zaman Dilimi',
     'Active' => 'Aktif',
     'Passive' => 'Pasif',
+    'Email Confirmation' => 'Email Doğrulaması',
+    'Disable' => 'Devre Dışı Bırak',
 
     /* Error */
     'The above error occurred while the Web server was processing your request.' => 'Web sunucusu isteğinizi işlerken yukarıdaki hata oluştu.',

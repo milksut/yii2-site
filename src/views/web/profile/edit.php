@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($modelProfile, 'id_avatar')->label(Module::t('Avatar'))->widget("\portalium\storage\widgets\FilePicker", [
         'multiple' => 0,
         'attributes' => ['id_storage'],
-        'name' => 'app::logo_wide',
+        'name' => 'avatar-picker',
         'isPicker' => true,
         'isJson' => false
     ]) ?>

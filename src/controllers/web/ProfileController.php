@@ -35,6 +35,7 @@ class ProfileController extends WebController
         if ($modelProfile->load(Yii::$app->request->post())) {
             if ($modelProfile->updateUser()) {
                 Yii::$app->session->addFlash('success', Module::t('Your profile has been successfully updated!'));
+                return $this->redirect(['edit']);
             }
         }
         return $this->render('edit', [
@@ -70,6 +71,7 @@ class ProfileController extends WebController
                 Yii::$app->session->addFlash('error', Module::t('Your old Password information is incorrect!'));
                 $modelPassword = new ProfilePasswordForm();
             }
+            return $this->redirect(['edit']);
         }
 
         return $this->render('edit', [

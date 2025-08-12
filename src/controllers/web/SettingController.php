@@ -62,6 +62,9 @@ class SettingController extends WebController
 
             if ($setting->validate()) {
                 $setting->save();
+                if ($setting->name === 'theme::page_size') {
+                    Yii::$app->session->set('theme::page_size', (int)$setting->value);
+                }
             }else{
                 Yii::$app->session->addFlash('error', Module::t('There are an error. Settings not saved.'));
                 return $this->redirect('index');

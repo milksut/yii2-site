@@ -80,6 +80,18 @@ class m010101_010101_site_setting extends Migration
 
         $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',
+            'name' => 'login::layout',
+            'label' => 'Login and Signup Page Layout',
+            'value' => 'single-column',
+            'type' => Form::TYPE_DROPDOWNLIST,
+            'config' => json_encode([
+                'single-column' => 'Single Column',
+                'two-column' => 'Two Column'
+            ])
+        ]);
+
+        $this->insert(Module::$tablePrefix . 'setting', [
+            'module' => 'site',
             'name' => 'app::logo_wide',
             'label' => 'Application Logo Wide',
             'value' => '0',
@@ -88,7 +100,7 @@ class m010101_010101_site_setting extends Migration
                 'widget' => '\portalium\storage\widgets\FilePicker',
                 'options' => [
                     'multiple' => 0,
-                    'attributes' => ['name'],
+                    'attributes' => ['name','id_storage'],
                     'name' => 'app::logo_wide',
                     'isPicker' => true
                 ]
@@ -105,12 +117,30 @@ class m010101_010101_site_setting extends Migration
                 'widget' => '\portalium\storage\widgets\FilePicker',
                 'options' => [
                     'multiple' => 0,
-                    'attributes' => ['name'],
+                    'attributes' => ['name','id_storage'],
                     'name' => 'app::logo_square',
                     'isPicker' => true
                 ]
             ])
         ]);
+
+        $this->insert(Module::$tablePrefix . 'setting', [
+            'module' => 'site',
+            'name' => 'app::login_image',
+            'label' => 'Application Login Image',
+            'value' => '0',
+            'type' => Form::TYPE_WIDGET,
+            'config' => json_encode([
+                'widget' => '\portalium\storage\widgets\FilePicker',
+                'options' => [
+                    'multiple' => 0,
+                    'attributes' => ['name','id_storage'],
+                    'name' => 'app::login_image',
+                    'isPicker' => true
+                ]
+            ])
+        ]);
+
         $this->insert(Module::$tablePrefix . 'setting', [
             'module' => 'site',
             'name' => 'form::signup',

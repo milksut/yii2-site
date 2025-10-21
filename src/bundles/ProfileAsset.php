@@ -10,6 +10,9 @@ class ProfileAsset extends AssetBundle
     public $css = [
         'css/profile.css'
     ];
+    public $js = [
+        'js/access-token.js'
+    ];
     public $publishOptions = [
         'forceCopy' => YII_DEBUG,
     ];

@@ -14,12 +14,17 @@ class m211115_010204_profile_rbac extends Migration
         $auth->getRule('siteOwnRule');
         $role = \Yii::$app->setting->getValue('site::admin_role');
         $admin = (isset($role) && $role != '') ? $auth->getRole($role) : $auth->getRole('admin');
+        $user = $auth->createRole('user');
+        $user->description = 'User';
+        $auth->add($user);
 
-       
+
+
         $siteApiProfileEdit = $auth->createPermission('siteApiProfileEdit');
         $siteApiProfileEdit->description = 'Site Api Profile Edit';
         $auth->add($siteApiProfileEdit);
         $auth->addChild($admin, $siteApiProfileEdit);
+
 
 
         $siteApiProfileEditPassword = $auth->createPermission('siteApiProfileEditPassword');
@@ -32,15 +37,14 @@ class m211115_010204_profile_rbac extends Migration
         $siteWebProfiletEdit->description = 'Site Web Profile Edit';
         $auth->add($siteWebProfiletEdit);
         $auth->addChild($admin,  $siteWebProfiletEdit);
+        $auth->addChild($user,  $siteWebProfiletEdit);
 
 
         $siteWebProfileEditPassword = $auth->createPermission('siteWebProfileEditPassword');
         $siteWebProfileEditPassword->description = 'Site Web Profile Change Password';
         $auth->add($siteWebProfileEditPassword);
         $auth->addChild($admin, $siteWebProfileEditPassword);
-
-
-
+        $auth->addChild($user, $siteWebProfileEditPassword);
 
 
         $siteApiProfileEditOwn = $auth->createPermission('siteApiProfileEditOwn');
@@ -62,12 +66,12 @@ class m211115_010204_profile_rbac extends Migration
         $auth->addChild($siteApiProfileEditPasswordOwn, $siteApiProfileEditPassword);
 
 
-
         $siteWebProfiletEditOwn = $auth->createPermission('siteWebProfileEditOwn');
         $siteWebProfiletEditOwn->description = 'Site Web Profile EditOwn';
         $siteWebProfiletEditOwn->ruleName = $rule->name;
         $auth->add($siteWebProfiletEditOwn);
         $auth->addChild($admin,  $siteWebProfiletEditOwn);
+        $auth->addChild($user,  $siteWebProfiletEditOwn);
         $siteWebProfileEdit = $auth->getPermission('siteWebProfileEdit');
         $auth->addChild($siteWebProfiletEditOwn, $siteWebProfileEdit);
 
@@ -77,8 +81,24 @@ class m211115_010204_profile_rbac extends Migration
         $siteWebProfileEditPasswordOwn->ruleName = $rule->name;
         $auth->add($siteWebProfileEditPasswordOwn);
         $auth->addChild($admin, $siteWebProfileEditPasswordOwn);
+        $auth->addChild($user, $siteWebProfileEditPasswordOwn);
         $siteWebProfileEditPassword = $auth->getPermission('siteWebProfileEditPassword');
         $auth->addChild($siteWebProfileEditPasswordOwn, $siteWebProfileEditPassword);
+
+
+        $siteWebProfileRegenerateToken = $auth->createPermission('siteWebProfileRegenerateToken');
+        $siteWebProfileRegenerateToken->description = 'Site Web Profile Regenerate Token';
+        $auth->add($siteWebProfileRegenerateToken);
+        $auth->addChild($admin, $siteWebProfileRegenerateToken);
+
+        $siteWebProfileRegenerateTokenOwn = $auth->createPermission('siteWebProfileRegenerateTokenOwn');
+        $siteWebProfileRegenerateTokenOwn->description = 'Site Web Profile Regenerate Token Own';
+        $siteWebProfileRegenerateTokenOwn->ruleName = $rule->name;
+        $auth->add($siteWebProfileRegenerateTokenOwn);
+        $auth->addChild($admin, $siteWebProfileRegenerateTokenOwn);
+        $siteWebProfileRegenerateToken = $auth->getPermission('siteWebProfileRegenerateToken');
+        $auth->addChild($siteWebProfileRegenerateTokenOwn, $siteWebProfileRegenerateToken);
+
     }
     public function down()
     {
@@ -87,8 +107,8 @@ class m211115_010204_profile_rbac extends Migration
         $auth->remove($auth->getPermission('siteApiProfileEdit'));
         $auth->remove($auth->getPermission('siteWebProfileEditPassword'));
         $auth->remove($auth->getPermission('siteWebProfileEdit'));
-
-
+        $auth->remove($auth->getPermission('siteWebProfileRegenerateToken'));
+        $auth->remove($auth->getPermission('siteOwnWebProfileRegenerateToken'));
         $auth->remove($auth->getPermission('siteOwnApiProfileEditPassword'));
         $auth->remove($auth->getPermission('siteOwnApiProfileEdit'));
         $auth->remove($auth->getPermission('siteOwnWebProfileEditPassword'));

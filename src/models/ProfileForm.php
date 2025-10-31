@@ -6,11 +6,9 @@ use yii\base\Model;
 use portalium\site\Module;
 use Yii;
 use portalium\user\models\User;
-use portalium\storage\models\Storage;
 
 class ProfileForm extends Model
 {
-    public $id;
     public $username;
     public $first_name;
     public $last_name;
@@ -24,7 +22,8 @@ class ProfileForm extends Model
             ['username', 'trim'],
             ['username', 'unique', 'targetClass' => '\portalium\user\models\User', 'filter' => function ($query) {
                 $query->andWhere(['not', ['id_user' => Yii::$app->user->identity->id_user]]);
-            }, 'message' => Module::t('This username has already been taken.')],            ['username', 'string', 'min' => 2, 'max' => 255],
+            }, 'message' => Module::t('This username has already been taken.')],
+            ['username', 'string', 'min' => 2, 'max' => 255],
             ['email', 'trim'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
@@ -35,7 +34,6 @@ class ProfileForm extends Model
             ['last_name', 'safe'],
             ['id_avatar', 'safe'],
             ['access_token', 'safe'],
-            ['id_user', 'safe']
         ];
 
         return $rules;
@@ -49,10 +47,9 @@ class ProfileForm extends Model
             'last_name' => Module::t('Last Name'),
             'username' => Module::t('Username'),
             'email' => Module::t('Email'),
-            'access_token' => Module::t('Access Token'),
         ];
     }
-  
+
 
     public function updateUser()
     {
@@ -68,8 +65,15 @@ class ProfileForm extends Model
             $user->username = $this->username;
             $user->email = $this->email;
             $user->id_avatar = $this->id_avatar;
-            $user->access_token = $this->access_token;
             return $user->save();
         }
+    }
+
+    public function filterPostData($data)
+    {
+        if (isset($data['access_token'])) {
+            unset($data['access_token']);
+        }
+        return $data;
     }
 }

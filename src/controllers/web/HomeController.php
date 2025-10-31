@@ -18,7 +18,7 @@ class HomeController extends WebController
     {
         $behaviors = parent::behaviors();
 
-        $behaviors['access']['except'] = ['index', 'lang'];
+        $behaviors['access']['except'] = ['*'];
         return $behaviors;
     }
 
@@ -54,6 +54,13 @@ class HomeController extends WebController
         return $this->goHome();
     }
 
+    public function actionError()
+    {
+        $message = Yii::$app->errorHandler->exception->getMessage();
+        $name = Yii::$app->errorHandler->exception->getName();
+        return $this->render('error', ['message' => $message, 'name' => $name]);
+    }
+
     public function actionContact()
     {
         if (Yii::$app->setting->getValue('form::contact')) {
@@ -79,7 +86,6 @@ class HomeController extends WebController
     public function actionLang($lang)
     {
         Yii::$app->session->set('lang', $lang);
-        // return $this->goBack(Yii::$app->request->referrer);
         return $this->redirect(Yii::$app->request->referrer);
     }
 

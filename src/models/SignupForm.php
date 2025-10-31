@@ -4,7 +4,6 @@ namespace portalium\site\models;
 
 use Exception;
 use portalium\base\Event;
-use portalium\site\components\Site;
 use yii\base\Model;
 use portalium\site\Module;
 use Yii;
@@ -19,8 +18,8 @@ class SignupForm extends Model
     public $first_name;
     public $last_name;
     public $isApiRequest;
-    const RECAPCHA_ACTIVE = 1;
-    const RECAPCHA_PASIVE = 0;
+    const RECAPTCHA_ACTIVE = 1;
+    const RECAPTCHA_PASSIVE = 0;
 
 
     public function rules()
@@ -30,6 +29,7 @@ class SignupForm extends Model
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\portalium\user\models\User', 'message' => Module::t('This username has already been taken.')],
             ['username', 'string', 'min' => 2, 'max' => 255],
+            ['username', 'match', 'pattern' => '/^[a-zA-Z0-9_.]+$/', 'message' => Module::t('Username can only contain alphanumeric characters, underscores, and dots.')],
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
@@ -46,8 +46,8 @@ class SignupForm extends Model
                 'action' => 'signup',
                 'when' => function () {
                     if (Yii::$app instanceof \portalium\web\Controller) {
-                        if (Yii::$app->setting->getValue('site::recaptcha') == Yii::$app->site->RECAPCHA_ACTIVE) {  
-                        return Yii::$app->setting->getValue('site::recaptcha');
+                        if (Yii::$app->setting->getValue('site::recaptcha') == Yii::$app->site->RECAPTCHA_ACTIVE) {
+                            return Yii::$app->setting->getValue('site::recaptcha');
                         } else {
                             return false;
                         }
@@ -125,6 +125,5 @@ class SignupForm extends Model
             ->setTo($this->email)
             ->setSubject('Account registration at ' .  Yii::$app->setting->getValue('app::title'))
             ->send();
-             
     }
 }

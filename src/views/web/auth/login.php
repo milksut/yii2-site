@@ -17,10 +17,7 @@ $logoUrl = null;
 if ($logoSquareId) {
     $storage = Storage::findOne($logoSquareId);
     if ($storage && $storage->fileExists()) {
-        $icon = $storage->getIconUrl();
-        if (is_array($icon) && isset($icon['url'])) {
-            $logoUrl = $icon['url'];
-        }
+        $logoUrl = $storage->getFilePath();
     }
 }
 ?>
@@ -28,24 +25,22 @@ if ($logoSquareId) {
 <div class="site-login">
 
     <?php if ($loginLayout === 'two-column'): ?>
-        <div class="row" style="min-height: 100vh;">
-            <div class="col-lg-6 d-flex justify-content-center align-items-start">
-                <div class="card shadow-sm" style="width: 400px;">
-                    <div class="card-body">
+    <div class="row" style="max-height: 100vh; display: flex; align-items: center;">
+        <div class="col-lg-6 d-flex justify-content-center">
+            <div class="card shadow-sm" style="width: 400px;">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <?php if ($logoUrl): ?>
+                            <?= Html::img($logoUrl, [
+                                'alt' => 'Logo',
+                                'style' => 'max-width: 150px; height: auto; margin-bottom: 15px;'
+                            ]) ?>
+                        <?php endif; ?>
+                    </div>
 
-                        <div class="text-center mb-3">
-                            <?php if ($logoUrl): ?>
-                                <?= Html::img($logoUrl, [
-                                    'alt' => 'Logo',
-                                    'class' => 'img-fluid',
-                                    'style' => 'max-width: 150px; height: auto; margin-bottom: 15px;'
-                                ]) ?>
-                            <?php endif; ?>
-                        </div>
+                    <h1 class="h3 mb-3 fw-normal text-center"><?= Html::encode(Module::t('Login')) ?></h1>
 
-                        <h1 class="h3 mb-3 fw-normal text-center"><?= Html::encode(Module::t('Login')) ?></h1>
-
-                        <?php $form = ActiveForm::begin([
+                    <?php $form = ActiveForm::begin([
                             'id' => 'login-form',
                             'options' => ['class' => 'form-horizontal'],
                             'fieldConfig' => [
@@ -90,27 +85,24 @@ if ($logoSquareId) {
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 p-0">
-                <?php 
-                $loginImageId = Yii::$app->setting->getValue('app::login_image');
-                if ($loginImageId) {
-                    $storage = Storage::findOne($loginImageId);
-                    if ($storage && $storage->fileExists()) {
-                        $imgUrl = $storage->getIconUrl();
-                        if (is_array($imgUrl) && isset($imgUrl['url'])) {
-                            echo Html::img($imgUrl['url'], [
-                                'class' => 'img-fluid h-100 w-100',
-                                'style' => 'object-fit: cover;'
-                            ]);
-                        }
-                    }
+            <div class="col-lg-6 d-flex justify-content-center">
+            <?php 
+            $loginImageId = Yii::$app->setting->getValue('app::login_image');
+            if ($loginImageId) {
+                $storage = Storage::findOne($loginImageId);
+                if ($storage && $storage->fileExists()) {
+                    $imgUrl = $storage->getFilePath();
+                    echo Html::img($imgUrl, [
+                        'style' => 'display: block; height: 75vh; max-width: 100%; max-height: auto;'
+                    ]);
                 }
-                ?>
-            </div>
+            }
+            ?>
         </div>
+    </div>
 
     <?php else: ?>
-        <div class="row justify-content-center" style="min-height: 100vh;">
+        <div class="row justify-content-center" style="max-height: 100vh;">
             <div class="col-lg-4">
                 <div class="card shadow-sm">
                     <div class="card-body">

@@ -102,7 +102,8 @@ class m010101_010101_site_setting extends Migration
                     'multiple' => 0,
                     'attributes' => ['name','id_storage'],
                     'name' => 'app::logo_wide',
-                    'isPicker' => true
+                    'isPicker' => true,
+                    'allowedExtensions' => ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp']
                 ]
             ])
         ]);
@@ -119,7 +120,8 @@ class m010101_010101_site_setting extends Migration
                     'multiple' => 0,
                     'attributes' => ['name','id_storage'],
                     'name' => 'app::logo_square',
-                    'isPicker' => true
+                    'isPicker' => true,
+                    'allowedExtensions' => ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp']
                 ]
             ])
         ]);
@@ -136,7 +138,8 @@ class m010101_010101_site_setting extends Migration
                     'multiple' => 0,
                     'attributes' => ['name','id_storage'],
                     'name' => 'app::login_image',
-                    'isPicker' => true
+                    'isPicker' => true,
+                    'allowedExtensions' => ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp']
                 ]
             ])
         ]);

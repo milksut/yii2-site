@@ -24,19 +24,17 @@ class ProfileController extends WebController
 
         $modelProfile = new ProfileForm();
         $modelPassword = new ProfilePasswordForm();
-
+        $profileJson = Yii::$app->request->post('ProfileForm', []);
         $user = User::findOne(Yii::$app->user->identity->id_user);
-        $modelProfile->id = $user->id;
-        $modelProfile->username = $user->username;
-        $modelProfile->first_name = $user->first_name;
-        $modelProfile->last_name = $user->last_name;
-        $modelProfile->email = $user->email;
-        $modelProfile->id_avatar=$user->id_avatar;
+        $modelProfile->id = Yii::$app->user->identity->id_user;
+        $modelProfile->username = $profileJson['username'] ?? $user->username;
+        $modelProfile->first_name = $profileJson['first_name'] ?? $user->first_name;
+        $modelProfile->last_name = $profileJson['last_name'] ?? $user->last_name;
+        $modelProfile->email = $profileJson['email'] ?? $user->email;
+        $modelProfile->id_avatar = $profileJson['id_avatar'] ?? $user->id_avatar;
         $modelProfile->access_token = $user->access_token;
 
-
-
-        if ($modelProfile->load($modelProfile->filterPostData((Yii::$app->request->post('ProfileForm'))))) {
+        if ($modelProfile->filterPostData(Yii::$app->request->post('ProfileForm'))) {
             if ($modelProfile->updateUser()) {
                 Yii::$app->session->addFlash('success', Module::t('Your profile has been successfully updated!'));
                 return $this->redirect(['edit']);
@@ -84,21 +82,19 @@ class ProfileController extends WebController
 
     public function actionRegenerateToken($id)
     {
-        if (!\Yii::$app->user->can('siteWebProfileRegenerateToken')) {
+        Yii::warning("Regenerate token action called for user ID: " . $id);
+        Yii::warning(!Yii::$app->workspace->can('siteWebProfileRegenerateTokenOwn', ['model' => User::findOne($id)]));
+        if (!\Yii::$app->user->can('siteWebProfileRegenerateToken') && !Yii::$app->workspace->can('siteWebProfileRegenerateTokenOwn', ['model' => User::findOne($id)])) {
             throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
         }
         $user = User::findOne($id);
 
-        if (($user->access_token = Yii::$app->security->generateRandomString(32)) && ($user->save()))
-        {
+        if (($user->access_token = Yii::$app->security->generateRandomString(32)) && ($user->save())) {
             Yii::$app->session->setFlash('success', Module::t('Your token has been successfully generated!'));
-        }
-        else
-        {
+        } else {
             Yii::$app->session->setFlash('error', Module::t('Your token could not be generated!'));
         }
 
         return $this->redirect('edit');
-
     }
 }

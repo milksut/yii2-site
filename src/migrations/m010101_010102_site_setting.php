@@ -21,6 +21,7 @@ class m010101_010102_site_setting extends Migration
             'label' => 'Default Admin Role',
             'value' => 'admin',
             'type' => Form::TYPE_DROPDOWNLIST,
+            'is_preference' => 0,
             'config' => json_encode([
                 'model' => [
                     'class' => 'portalium\site\models\DbManager',
@@ -41,6 +42,7 @@ class m010101_010102_site_setting extends Migration
             'label' => 'Default User Role',
             'value' => 'user',
             'type' => Form::TYPE_DROPDOWNLIST,
+            'is_preference' => 0,
             'config' => json_encode([
                 'model' => [
                     'class' => 'portalium\site\models\DbManager',

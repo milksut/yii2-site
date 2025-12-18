@@ -9,6 +9,7 @@ use portalium\user\models\User;
 
 class ProfileForm extends Model
 {
+    public $id;
     public $username;
     public $first_name;
     public $last_name;
@@ -34,6 +35,7 @@ class ProfileForm extends Model
             ['last_name', 'safe'],
             ['id_avatar', 'safe'],
             ['access_token', 'safe'],
+            [['id'], 'integer'],
         ];
 
         return $rules;
@@ -59,7 +61,6 @@ class ProfileForm extends Model
         $user = User::findOne(Yii::$app->user->identity->id_user);
 
         if ($user) {
-
             $user->first_name = $this->first_name;
             $user->last_name = $this->last_name;
             $user->username = $this->username;

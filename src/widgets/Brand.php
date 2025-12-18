@@ -21,13 +21,15 @@ class Brand extends Widget
 
     public function run()
     {
-        
-        $brand =  ($this->title) ? Html::encode(Yii::$app->setting->getValue('app::title')):"";
-        if($this->auto && isset($this->img['name'])){
-            $brand = Html::img(Yii::$app->request->baseUrl.'/storage/default/get-file?id='.strval($this->img['id_storage']), $this->options);
-        }else{
-            $brand = (isset($this->img['name']) && $this->logo) ? Html::img(Yii::$app->request->baseUrl.'/storage/default/get-file?id='.strval($this->img['id_storage']), $this->options):"";
-            $brand .=  ($this->title) ? Html::encode(Yii::$app->setting->getValue('app::title')):"";
+
+        $brand =  ($this->title) ? Html::encode(Yii::$app->setting->getValue('app::title')) : "";
+        if ($this->auto && isset($this->img['name'])) {
+            // $brand = Html::img(Yii::$app->request->baseUrl . '/storage/default/get-file?id=' . strval($this->img['id_storage']), $this->options);
+            $brand = Html::img(Yii::$app->request->baseUrl . '/data/' . strval($this->img['name']), $this->options);
+        } else {
+            // $brand = (isset($this->img['name']) && $this->logo) ? Html::img(Yii::$app->request->baseUrl . '/storage/default/get-file?id=' . strval($this->img['id_storage']), $this->options) : "";
+            $brand = (isset($this->img['name']) && $this->logo) ? Html::img(Yii::$app->request->baseUrl . '/data/' . strval($this->img['name']), $this->options) : "";
+            $brand .=  ($this->title) ? Html::encode(Yii::$app->setting->getValue('app::title')) : "";
         }
         return $brand;
     }

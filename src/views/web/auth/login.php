@@ -17,21 +17,30 @@ $logoUrl = null;
 if ($logoSquareId) {
     $storage = Storage::findOne($logoSquareId);
     if ($storage && $storage->fileExists()) {
-        $icon = $storage->getIconUrl();
-        if (is_array($icon) && isset($icon['url'])) {
-            $logoUrl = $icon['url'];
+        $icon = $storage->getFilePath();
+        if ($icon) {
+            $logoUrl = $icon;
         }
     }
 }
+
+$this->registerCss(
+    '
+        #main {
+            width: 100% !important;
+        }
+        '
+);
 ?>
 
 <div class="site-login">
 
     <?php if ($loginLayout === 'two-column'): ?>
-        <div class="row" style="min-height: 100vh;">
-            <div class="col-lg-6 d-flex justify-content-center align-items-start">
-                <div class="card shadow-sm" style="width: 400px;">
-                    <div class="card-body">
+        <div class="container-fluid d-flex align-items-center" style="min-height: calc(100vh - 170px);">
+            <div class="row justify-content-center align-items-center" style="margin: 0 auto; max-width: 1200px; width: 100%;">
+                <div class="col-lg-5 d-flex justify-content-center py-4">
+                    <div class="card shadow-sm" style="width: 100%; max-width: 400px;">
+                        <div class="card-body">
 
                         <div class="text-center mb-3">
                             <?php if ($logoUrl): ?>
@@ -58,10 +67,10 @@ if ($logoSquareId) {
                             ],
                         ]); ?>
 
-                        <?= $form->field($model, 'username', ['options'=>['class' => 'form-attribute mb-3 row']])
+                        <?= $form->field($model, 'username', ['options' => ['class' => 'form-attribute mb-3 row']])
                             ->textInput(['autofocus' => true, 'class' => 'form-control form-control-lg', 'placeholder' => Module::t('Username')]) ?>
 
-                        <?= $form->field($model, 'password', ['options'=>['class' => 'form-attribute mb-3 row']])
+                        <?= $form->field($model, 'password', ['options' => ['class' => 'form-attribute mb-3 row']])
                             ->passwordInput(['class' => 'form-control form-control-lg', 'placeholder' => Module::t('Password')]) ?>
 
                         <div class="row form-attribute">
@@ -90,17 +99,17 @@ if ($logoSquareId) {
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 p-0">
-                <?php 
+            <div class="col-lg-5 d-flex justify-content-center align-items-center py-4">
+                <?php
                 $loginImageId = Yii::$app->setting->getValue('app::login_image');
                 if ($loginImageId) {
                     $storage = Storage::findOne($loginImageId);
                     if ($storage && $storage->fileExists()) {
-                        $imgUrl = $storage->getIconUrl();
-                        if (is_array($imgUrl) && isset($imgUrl['url'])) {
-                            echo Html::img($imgUrl['url'], [
-                                'class' => 'img-fluid h-100 w-100',
-                                'style' => 'object-fit: cover;'
+                        $imgUrl = $storage->getFilePath();
+                        if ($imgUrl) {
+                            echo Html::img($imgUrl, [
+                                'class' => 'img-fluid',
+                                'style' => 'max-height: 100%; max-width: 100%; object-fit: cover;'
                             ]);
                         }
                     }
@@ -108,9 +117,10 @@ if ($logoSquareId) {
                 ?>
             </div>
         </div>
+        </div>
 
     <?php else: ?>
-        <div class="row justify-content-center" style="min-height: 100vh;">
+        <div class="row justify-content-center align-items-center" style="min-height: calc(100vh - 170px);">
             <div class="col-lg-4">
                 <div class="card shadow-sm">
                     <div class="card-body">
@@ -140,10 +150,10 @@ if ($logoSquareId) {
                             ],
                         ]); ?>
 
-                        <?= $form->field($model, 'username', ['options'=>['class' => 'form-attribute mb-3 row']])
+                        <?= $form->field($model, 'username', ['options' => ['class' => 'form-attribute mb-3 row']])
                             ->textInput(['autofocus' => true, 'class' => 'form-control form-control-lg', 'placeholder' => Module::t('Username')]) ?>
 
-                        <?= $form->field($model, 'password', ['options'=>['class' => 'form-attribute mb-3 row']])
+                        <?= $form->field($model, 'password', ['options' => ['class' => 'form-attribute mb-3 row']])
                             ->passwordInput(['class' => 'form-control form-control-lg', 'placeholder' => Module::t('Password')]) ?>
 
                         <div class="row form-attribute">

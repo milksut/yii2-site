@@ -99,6 +99,7 @@ class SignupForm extends Model
                         return $user;
                     }
                 } catch (Exception $e) {
+                    Yii::warning($e->getMessage());
                     Yii::$app->session->addFlash('error', Module::t('SMTP error: Unable to send verification email. Please try again later.'));
                     $user->delete();
                 }
@@ -107,6 +108,8 @@ class SignupForm extends Model
                 Yii::$app->trigger(Module::EVENT_ON_SIGNUP, new Event(['payload' => $user]));
                 return $user;
             }
+        } else {
+            Yii::warning($user->errors);
         }
         return null;
     }

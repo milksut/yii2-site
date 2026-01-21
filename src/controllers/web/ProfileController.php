@@ -82,8 +82,6 @@ class ProfileController extends WebController
 
     public function actionRegenerateToken($id)
     {
-        Yii::warning("Regenerate token action called for user ID: " . $id);
-        Yii::warning(!Yii::$app->workspace->can('siteWebProfileRegenerateTokenOwn', ['model' => User::findOne($id)]));
         if (!\Yii::$app->user->can('siteWebProfileRegenerateToken') && !Yii::$app->workspace->can('siteWebProfileRegenerateTokenOwn', ['model' => User::findOne($id)])) {
             throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
         }

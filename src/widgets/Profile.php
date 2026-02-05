@@ -9,6 +9,7 @@ use portalium\storage\models\Storage;
 use portalium\user\models\User;
 use portalium\menu\models\MenuItem;
 use portalium\site\Module;
+use portalium\site\bundles\ProfileAsset;
 
 class Profile extends Widget
 {
@@ -25,15 +26,9 @@ class Profile extends Widget
         $this->style = json_decode($this->style, true);
 
         $this->options['class'] = 'placementWidget';
-        if($this->placement == 'top-to-bottom'){
-            $this->options['data-bs-placement'] = $this->placement; 
-            $this->registerCss();
-        }if($this->placement == 'side-by-side'){
-            $this->registerCss();
+        if ($this->placement == 'top-to-bottom' || $this->placement == 'side-by-side') {
+            ProfileAsset::register($this->getView());
         }
-        
-
-        
     }
 
     public function run()
@@ -63,7 +58,7 @@ class Profile extends Widget
                 $usernameInitial = mb_substr($username, 0, 1, 'UTF-8');
                 $title = $username;
             }
-           
+
             return $this->render('./profile', [
                 'username' => $username,
                 'last_name' => $last_name,
@@ -75,12 +70,11 @@ class Profile extends Widget
                 'filePath' => $filePath,
                 'style' => $this->style,
                 'label' => $label,
-                'placement'=>$this->placement,
-                'options' =>$this->options,
+                'placement' => $this->placement,
+                'options' => $this->options,
             ]);
         }
     }
-
 
     private function generateLabel($text)
     {
@@ -90,20 +84,4 @@ class Profile extends Widget
 
         return $label;
     }
-
-    private function registerCss()
-    {
-        $css = <<<CSS
-    .placementWidget[data-bs-placement="side-by-side"] {
-    }
-    .placementWidget[data-bs-placement="top-to-bottom"] li a i {
-     display: block;
-     flex-direction: column; 
-     align-items: center;
-    }
-    CSS;
-        $this->getView()->registerCss($css);
-    }
-
-
 }

@@ -18,21 +18,28 @@ class ProfileController extends WebController
             throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
         }
 
+        if (($user = User::findOne(Yii::$app->user->identity->id_user)) === null) {
+            throw new \yii\web\NotFoundHttpException(Module::t('The requested page does not exist.'));
+        }
+
         $modelProfile = new ProfileForm();
         $modelPassword = new ProfilePasswordForm();
 
         $user = User::findOne(Yii::$app->user->identity->id_user);
+        $modelProfile->id = $user->id;
         $modelProfile->username = $user->username;
         $modelProfile->first_name = $user->first_name;
         $modelProfile->last_name = $user->last_name;
         $modelProfile->email = $user->email;
         $modelProfile->id_avatar=$user->id_avatar;
+        $modelProfile->access_token = $user->access_token;
 
 
 
-        if ($modelProfile->load(Yii::$app->request->post())) {
+        if ($modelProfile->load($modelProfile->filterPostData((Yii::$app->request->post('ProfileForm'))))) {
             if ($modelProfile->updateUser()) {
                 Yii::$app->session->addFlash('success', Module::t('Your profile has been successfully updated!'));
+                return $this->redirect(['edit']);
             }
         }
         return $this->render('edit', [
@@ -49,18 +56,16 @@ class ProfileController extends WebController
             throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
         }
 
+        if (($user = User::findOne(Yii::$app->user->identity->id_user)) === null) {
+            throw new \yii\web\NotFoundHttpException(Module::t('The requested page does not exist.'));
+        }
+
         $modelPassword = new  ProfilePasswordForm();
         $modelProfile = new ProfileForm();
 
-        $user = User::findOne(Yii::$app->user->identity->id_user);
-        $modelProfile->username = $user->username;
-        $modelProfile->first_name = $user->first_name;
-        $modelProfile->last_name = $user->last_name;
-        $modelProfile->email = $user->email;
-        $modelProfile->id_avatar=$user->id_avatar;
+        $modelProfile->load($user->attributes, '');
 
-
-        if ($modelPassword->load(Yii::$app->request->post())) {
+        if ($modelPassword->load($modelProfile->filterPostData(Yii::$app->request->post('ProfilePasswordForm')), '')) {
             if ($modelPassword->updatePassword()) {
                 Yii::$app->session->addFlash('success', Module::t('Your password has been successfully updated'));
                 $modelPassword = new ProfilePasswordForm();
@@ -68,11 +73,32 @@ class ProfileController extends WebController
                 Yii::$app->session->addFlash('error', Module::t('Your old Password information is incorrect!'));
                 $modelPassword = new ProfilePasswordForm();
             }
+            return $this->redirect(['edit']);
         }
 
         return $this->render('edit', [
             'modelPassword' => $modelPassword,
             'modelProfile' => $modelProfile,
         ]);
+    }
+
+    public function actionRegenerateToken($id)
+    {
+        if (!\Yii::$app->user->can('siteWebProfileRegenerateToken')) {
+            throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
+        }
+        $user = User::findOne($id);
+
+        if (($user->access_token = Yii::$app->security->generateRandomString(32)) && ($user->save()))
+        {
+            Yii::$app->session->setFlash('success', Module::t('Your token has been successfully generated!'));
+        }
+        else
+        {
+            Yii::$app->session->setFlash('error', Module::t('Your token could not be generated!'));
+        }
+
+        return $this->redirect('edit');
+
     }
 }

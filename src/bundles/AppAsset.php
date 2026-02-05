@@ -16,7 +16,7 @@ class AppAsset extends AssetBundle
 
     public $css = [
 
-        'css/custom.css',
+        'css/custom.css'
     ];
 
 

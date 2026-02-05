@@ -29,17 +29,20 @@ class FlashMessage extends Widget
 
     public $autoDismiss = true;
 
-    public $dissmisDuration = 5000;
+    public $dismissDuration = 5000;
 
     public function init()
     {
         parent::init();
         Yii::$app->view->registerJs('if ($.pjax) $.pjax.defaults.timeout = 30000;');
         if ($this->autoDismiss) {
+
             $this->view->registerJs('
-                setTimeout(function() {
-                    $(".alert").alert("close");
-                }, ' . $this->dissmisDuration . ');
+                $(".alert").each(function() {
+                    setTimeout(function() {
+                        $(this).alert("close");
+                    }.bind(this),' .  $this->dismissDuration . ');
+                });
             ');
         }
 
@@ -52,10 +55,7 @@ class FlashMessage extends Widget
             if (isset($this->alertTypes[$type])) {
                 $data = (array) $data;
                 foreach ($data as $i => $message) {
-                    /* initialize css class for each alert box */
                     $this->options['class'] = $this->alertTypes[$type] . $appendCss;
-
-                    /* assign unique id to each alert box */
                     $this->options['id'] = $this->getId() . '-' . $type . '-' . $i;
 
                     echo Alert::widget([

@@ -71,7 +71,7 @@ if ($placement == 'top-to-bottom') {
         <li>
             <hr class="dropdown-divider">
         </li>
-        <li><a class="dropdown-item " href="/site/auth/logout" style="text-align: center;border:none !important"><?php echo Module::t('Logout') ?></a></li>
+        <li><a class="dropdown-item " href="/auth/default/logout" style="text-align: center;border:none !important"><?php echo Module::t('Logout') ?></a></li>
     </ul>
 </li>
 </ul>

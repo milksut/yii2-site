@@ -32,7 +32,7 @@ class HomeController extends WebController
                 return $this->redirect(['/content/default/show', 'id' => $content->id_content]);
             } else {
                 if (Yii::$app->user->isGuest) {
-                    return $this->redirect('site/auth/login');
+                    return $this->redirect('auth/default/login');
                 } else {
                     $content = "<h1>" . Module::t('No content') . "</h1>";
                 }

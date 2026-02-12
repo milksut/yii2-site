@@ -26,7 +26,7 @@ class LoginButton extends Widget
     {
         if (Yii::$app->user->isGuest) {
             $this->icon = Html::tag('i', '', ['class' => 'fa fa-sign-in', 'style' => 'min-width: 25px;']);
-            return '<li class="nav-item">' . Html::a($this->generateLabel('Login'), ['/site/auth/login'], ['class' => 'nav-link']) . '</li>';
+            return '<li class="nav-item">' . Html::a($this->generateLabel('Login'), ['/auth/default/login'], ['class' => 'nav-link']) . '</li>';
         } else {
             return false;
         }

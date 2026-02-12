@@ -71,7 +71,25 @@ if ($placement == 'top-to-bottom') {
         <li>
             <hr class="dropdown-divider">
         </li>
-        <li><a class="dropdown-item " href="/auth/default/logout" style="text-align: center;border:none !important"><?php echo Module::t('Logout') ?></a></li>
+        <li><a class="dropdown-item " id="logout-button" style="text-align: center;border:none !important"><?php echo Module::t('Logout') ?></a></li>
     </ul>
 </li>
 </ul>
+<script>
+    document.getElementById('logout-button').addEventListener('click', () => {
+        fetch('/auth/default/logout', {
+            method: 'POST',
+            headers: {
+                    "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
+                }
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/';
+            } else {
+                console.error('Logout failed');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>

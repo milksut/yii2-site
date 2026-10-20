@@ -160,5 +160,8 @@ return [
     'Regenerate' => 'Yeniden Oluştur',
     'Access Token' => 'Erişim Anahtarı',
     'Keys' => 'Anahtarlar',
+    'Copy' => 'Kopyala',
+    'A new API key will be generated and the current one will stop working immediately. CLI sessions and scripts using it must log in again. Do you approve?' => 'Yeni bir API anahtarı üretilecek ve mevcut anahtar hemen geçersiz olacak. Bu anahtarı kullanan CLI oturumları ve betikler yeniden giriş yapmalı. Onaylıyor musunuz?',
+    'Use this key to sign in to the NovaVision CLI: {command}' => 'NovaVision CLI\'a giriş için bu anahtarı kullanın: {command}',
     'Send' => 'Gönder',
 ];

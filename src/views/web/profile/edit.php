@@ -48,18 +48,21 @@ $this->params['breadcrumbs'][] = $this->title;
         <span class="input-group-text" title="' . Module::t('Show/Hide') . '" id="toggleAccessToken" style="cursor: pointer">
             <i class="fa fa-eye-slash" id="eyeIcon"></i>
         </span>
+        <span class="input-group-text" title="' . Module::t('Copy') . '" id="copyAccessToken" style="cursor: pointer">
+            <i class="fa fa-copy" id="copyIcon"></i>
+        </span>
         <a href="regenerate-token?id=' . $modelProfile->id.'" 
            data-method="post" 
-           data-confirm="' . Module::t('The token will be refreshed. This may affect existing API connections. Do you approve?') . '" 
+           data-confirm="' . Module::t('A new API key will be generated and the current one will stop working immediately. CLI sessions and scripts using it must log in again. Do you approve?') . '" 
            class="input-group-text" 
            title="' . Module::t('Regenerate') . '" 
            id="regenerateTokenButton" 
            style="cursor: pointer">
             <i class="fa fa-refresh"></i>
         </a>
-    </div>{error}</div>',
+    </div>{hint}{error}</div>',
     'labelOptions' => ['class' => 'col-sm-2 col-form-label'],
-])->textInput([
+])->hint(Module::t('Use this key to sign in to the NovaVision CLI: {command}', ['command' => '<code>novavision login</code>']))->textInput([
     'readonly' => true,
     'id' => 'accessTokenInput',
     'type' => 'password',

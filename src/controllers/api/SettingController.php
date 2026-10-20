@@ -41,4 +41,21 @@ class SettingController extends RestActiveController
         };
         return $actions;
     }
+
+    /**
+     * Access control for the inherited view/create/update/delete actions. checkAccess() was
+     * previously empty, letting any user change settings (e.g. site::user_role) to escalate privileges.
+     */
+    public function checkAccess($action, $model = null, $params = [])
+    {
+        if ($action === 'index') {
+            return;
+        }
+        $allowed = $action === 'view'
+            ? Yii::$app->user->can('siteAPISettingIndex') || Yii::$app->user->can('siteWebSettingIndex')
+            : Yii::$app->user->can('siteWebSettingUpdate');
+        if (!$allowed) {
+            throw new ForbiddenHttpException('You are not allowed to access this page.');
+        }
+    }
 }

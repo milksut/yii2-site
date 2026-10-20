@@ -30,6 +30,8 @@ class Module extends \portalium\base\Module
 
     public static $tablePrefix = 'site_';
 
+    private static $settingTableExists = [];
+
     public function getMenuItems()
     {
         $menuItems = [
@@ -59,7 +61,7 @@ class Module extends \portalium\base\Module
                 [
                     'menu' => 'web',
                     'type' => 'widget',
-                    'label' => 'portalium\site\widgets\profile',
+                    'label' => 'portalium\site\widgets\Profile',
                     'name' => 'Profile',
                 ],
                 [
@@ -74,10 +76,17 @@ class Module extends \portalium\base\Module
 
     public static function moduleInit()
     {
-        $settings = Setting::find()
-            ->where(['name' => ['app::language', 'site::timezone']])
-            ->indexBy('name')
-            ->all();
+        $settings = [];
+        $connection = spl_object_id(Yii::$app->db);
+        if (empty(self::$settingTableExists[$connection])) {
+            self::$settingTableExists[$connection] = Yii::$app->db->getTableSchema(Setting::tableName(), true) !== null;
+        }
+        if (self::$settingTableExists[$connection]) {
+            $settings = Setting::find()
+                ->where(['name' => ['app::language', 'site::timezone']])
+                ->indexBy('name')
+                ->all();
+        }
 
         if (!Yii::$app instanceof \yii\console\Application) {
             $lang = Yii::$app->session->get('lang');

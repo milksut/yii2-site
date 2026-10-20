@@ -15,6 +15,11 @@ class m211115_010204_profile_rbac extends Migration
         $role = \Yii::$app->setting->getValue('site::admin_role');
         $admin = (isset($role) && $role != '') ? $auth->getRole($role) : $auth->getRole('admin');
         $user = $auth->getRole('user');
+        if ($user === null) {
+            $user = $auth->createRole('user');
+            $user->description = 'User';
+            $auth->add($user);
+        }
 
 
 

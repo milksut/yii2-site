@@ -8,6 +8,9 @@ use portalium\user\models\User;
 use portalium\web\Controller as WebController;
 use portalium\site\Module;
 use Yii;
+use yii\filters\VerbFilter;
+use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 
 class ProfileController extends WebController
 {
@@ -80,12 +83,32 @@ class ProfileController extends WebController
         ]);
     }
 
-    public function actionRegenerateToken($id)
+    public function behaviors()
     {
-        if (!\Yii::$app->user->can('siteWebProfileRegenerateToken')) {
-            throw new \yii\web\ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
+        $behaviors = parent::behaviors();
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::class,
+            'actions' => ['regenerate-token' => ['POST']],
+        ];
+        return $behaviors;
+    }
+
+    /**
+     * Regenerates the user's API key (access_token). Defaults to the current user when $id is
+     * omitted; another user's record requires siteWebProfileRegenerateToken (admin).
+     */
+    public function actionRegenerateToken($id = null)
+    {
+        $user = User::findOne($id ?? Yii::$app->user->id);
+        if ($user === null) {
+            throw new NotFoundHttpException(Module::t('The requested page does not exist.'));
         }
-        $user = User::findOne($id);
+        if (
+            !Yii::$app->user->can('siteWebProfileRegenerateToken') &&
+            !Yii::$app->user->can('siteWebProfileRegenerateTokenOwn', ['model' => $user])
+        ) {
+            throw new ForbiddenHttpException(Module::t('You are not allowed to access this page.'));
+        }
 
         if (($user->access_token = Yii::$app->security->generateRandomString(32)) && ($user->save())) {
             Yii::$app->session->setFlash('success', Module::t('Your token has been successfully generated!'));

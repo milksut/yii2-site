@@ -89,3 +89,65 @@ $changePassForm = ActiveForm::begin(['method' => 'post', 'action' => ['profile/e
 
 <?php Panel::end() ?>
 <?php ActiveForm::end(); ?>
+
+<?php
+/* ------------------------------------------------------------------
+ * Phone Verification panel
+ *
+ * GET form → redirects to /auth/default/request-sms-verification
+ * with ?tel_no=<value>. The controller reads that param and pre-fills
+ * the request-code form. The actual number is only changed after a
+ * successful SMS verification, so nothing is saved from this form.
+ * ------------------------------------------------------------------ */
+$verifyPhoneForm = ActiveForm::begin([
+    'method'  => 'get',
+    'action'  => ['/auth/default/request-sms-verification'],
+    'options' => ['id' => 'verify-phone-form'],
+]);
+?>
+<?php Panel::begin([
+    'title' => Html::encode(Module::t('Phone Verification')),
+]) ?>
+
+<?php if ((int) $tel_no !== null && (int) $tel_no !== 0): ?>
+    <div class="alert alert-success d-flex align-items-center">
+        <i class="fa fa-check-circle me-2"></i>
+        <div>
+            <?= Module::t('Your phone number is verified:') ?>
+            <strong><?= Html::encode($tel_no) ?></strong>
+        </div>
+    </div>
+<?php else: ?>
+    <div class="alert alert-warning d-flex align-items-center">
+        <i class="fa fa-exclamation-triangle me-2"></i>
+        <div><?= Module::t('Your phone number is not verified yet.') ?></div>
+    </div>
+<?php endif; ?>
+
+<div class="mb-3">
+    <label for="verify-sms-tel-no" class="form-label">
+        <?= Module::t('Phone Number') ?>
+    </label>
+    <?= Html::textInput('tel_no', $tel_no, [
+        'id'           => 'verify-sms-tel-no',
+        'class'        => 'form-control',
+        'placeholder'  => '+905551234567',
+        'maxlength'    => 20,
+        'autocomplete' => 'tel',
+    ]) ?>
+    <div class="form-text small text-muted">
+        <?= Module::t('Use the international format, e.g. +905551234567') ?>
+    </div>
+</div>
+
+<div class="text-end">
+    <?= Html::submitButton(
+        ((int) $tel_no !== null && (int) $tel_no !== 0)
+            ? Module::t('Verify a Different Number')
+            : Module::t('Send Verification Code'),
+        ['class' => 'btn btn-success']
+    ) ?>
+</div>
+
+<?php Panel::end() ?>
+<?php ActiveForm::end(); ?>

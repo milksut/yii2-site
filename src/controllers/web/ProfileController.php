@@ -46,7 +46,7 @@ class ProfileController extends WebController
         return $this->render('edit', [
             'modelProfile' => $modelProfile,
             'modelPassword' => $modelPassword,
-
+            'tel_no' => $user->tel_no ? $user->tel_no : 0,
         ]);
     }
 

@@ -15,7 +15,7 @@ class m010101_010111_preference extends Migration
             'id_preference' => $this->primaryKey(),
             'id_user' => $this->integer()->notNull(),
             'id_setting' => $this->integer()->notNull(),
-            'id_workspace'=>$this->integer()->notNull(),
+            'id_workspace'=>$this->integer()->null(),
             'value' => $this->text(),
             'date_create' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'date_update' => $this->dateTime()->notNull()->defaultExpression('CURRENT_TIMESTAMP')->append('ON UPDATE NOW()'),

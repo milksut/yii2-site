@@ -13,7 +13,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $id_preference
  * @property int $id_user
  * @property int $id_setting
- * @property int $id_workspace
+ * @property int|null $id_workspace
  * @property string|null $value
  * @property string $date_create
  * @property string $date_update
@@ -51,7 +51,7 @@ class Preference extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_user', 'id_setting', 'id_workspace'], 'required'],
+            [['id_user', 'id_setting'], 'required'],
             [['id_user', 'id_setting', 'id_workspace'], 'integer'],
             [['value'], 'string'],
             [['date_create', 'date_update'], 'safe'],

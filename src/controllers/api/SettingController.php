@@ -10,6 +10,7 @@ use portalium\user\models\User;
 use portalium\site\models\SignupForm;
 use portalium\site\models\LoginForm;
 use portalium\rest\ActiveController as RestActiveController;
+use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 
 class SettingController extends RestActiveController
@@ -58,4 +59,28 @@ class SettingController extends RestActiveController
             throw new ForbiddenHttpException('You are not allowed to access this page.');
         }
     }
+
+    /*
+    * GET /api/site/setting/settings
+    * body: Settings[] -> ["setting_name", "setting_name", ...]
+    */
+    public function actionSettings()
+    {
+        $settings = Yii::$app->request->getBodyParam('settings');
+
+        if($settings == null || empty($settings))
+        {
+            throw new BadRequestHttpException('Null or empty settings param!');
+        }
+
+        $result = [];
+
+        foreach ($settings as $setting)
+        {
+            $result[$setting] = Yii::$app->setting->getValue($setting);
+        }
+
+        return $result;
+    }
+
 }

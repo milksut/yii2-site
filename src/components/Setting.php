@@ -31,24 +31,23 @@ class Setting extends Component
 
     public function getValue($name)
     {
+        $settingModel=self::findSetting($name);
+
         if(isset(\Yii::$app->user->id))
         {
-            $settingModel=self::findSetting($name);
             $preferenceModel=self::findPreference($settingModel->id);
-//            if (\Yii::$app->session->get($name) !== null) {
-//                return self::decode(Yii::$app->session->get($name));
-//            }
+
             if($preferenceModel)
             {
-                return self::decode(self::findPreference($settingModel->id)->value);
+                return self::decode($preferenceModel->value);
             }
             else
             {
-                return self::decode(self::findSetting($name)->value);
+                return self::decode($settingModel->value);
             }
 
         }
-        return self::decode(self::findSetting($name)->value);
+        return self::decode($settingModel->value);
 
     }
 
@@ -59,11 +58,11 @@ class Setting extends Component
 
         if($preferenceModel)
         {
-            return self::findPreference($settingModel->id);;
+            return $preferenceModel;
         }
         else
         {
-            return self::findSetting($name);
+            return $settingModel;
         }
     }
 
@@ -83,14 +82,23 @@ class Setting extends Component
 
     private static function findPreference($id)
     {
-        $id_user=\Yii::$app->user->id;
-        $id_workspace=\Yii::$app->workspace->id;
+        $id_user = \Yii::$app->user->id;
+        $id_workspace = \Yii::$app->workspace->id;
 
-        if (($preference = Preference::findOne(['id_setting' => $id,'id_user'=>$id_user,'id_workspace'=>$id_workspace])) !== null) {
-            return $preference;
-        }
+        $preference = Preference::find()
+            ->where([
+                'id_setting' => $id,
+                'id_user' => $id_user,
+            ])
+            ->andWhere([
+                'or',
+                ['id_workspace' => $id_workspace],
+                ['id_workspace' => null],
+            ])
+            ->orderBy(['id_workspace' => SORT_DESC]) //It will prefer workspace pereferance
+            ->one();
 
-       return false;
+        return $preference ? $preference : false;
     }
 
     function isJson($value) {

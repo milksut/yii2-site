@@ -23,14 +23,13 @@ class PreferenceController extends Controller
     }
 
     /**
-     * GET /api/preferences
+     * GET /api/site/preferences
      */
     public function actionIndex()
     {
         $preferences = Preference::find()
             ->where([
                 'id_user' => Yii::$app->user->id,
-                'id_workspace' => Yii::$app->workspace->id,
             ])
             ->with('setting')
             ->all();
@@ -50,7 +49,7 @@ class PreferenceController extends Controller
     }
 
     /**
-     * GET /api/preferences/{id}
+     * GET /api/site/preferences/{id}
      */
     public function actionView($id)
     {
@@ -67,7 +66,7 @@ class PreferenceController extends Controller
     }
 
     /**
-     * POST /api/preferences
+     * POST /api/site/preferences
      */
     public function actionCreate()
     {
@@ -89,7 +88,7 @@ class PreferenceController extends Controller
     }
 
     /**
-     * PUT /api/preferences/{id}
+     * PUT /api/site/preferences/{id}
      */
     public function actionUpdate($id)
     {
@@ -113,7 +112,7 @@ class PreferenceController extends Controller
     }
 
     /**
-     * DELETE /api/preferences/{id}
+     * DELETE /api/site/preferences/{id}
      */
     public function actionDelete($id)
     {

@@ -24,6 +24,7 @@ class Module extends \portalium\base\Module
             'controller' => [
                 'site/auth',
                 'site/setting',
+                'site/preference',
             ]
         ],
     ];

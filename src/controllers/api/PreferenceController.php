@@ -24,7 +24,7 @@ class PreferenceController extends Controller
     }
 
     /**
-     * GET /api/site/preference
+     * GET /api/site/preferences
      */
     public function actionIndex()
     {
@@ -51,7 +51,7 @@ class PreferenceController extends Controller
     }
 
     /**
-     * GET /api/site/preference/{id}
+     * GET /api/site/preferences/{id}
      */
     public function actionView($id)
     {
@@ -68,7 +68,7 @@ class PreferenceController extends Controller
     }
 
     /**
-     * POST /api/site/preference
+     * POST /api/site/preferences
      * body: { setting_name | id_setting, id_workspace?, value }
      */
     public function actionCreate()
@@ -117,7 +117,7 @@ class PreferenceController extends Controller
     }
 
      /**
-     * PUT /api/site/preference/{id}
+     * PUT /api/site/preferences/{id}
      * Yalnızca value değişir.
      */
     public function actionUpdate($id)
@@ -164,7 +164,7 @@ class PreferenceController extends Controller
     }
 
     /**
-     * DELETE /api/site/preference/{id}
+     * DELETE /api/site/preferences/{id}
      */
     public function actionDelete($id)
     {

@@ -53,6 +53,7 @@ class Language extends Widget
 
         $menuItems[] = [
             'label' => $this->generateLabel("Language"),
+            'encode' => false,
             'url' => ['/site/home/lang', 'lang' => Yii::$app->language],
             'items' => $langItems,
             'display' => $this->display,
@@ -73,17 +74,17 @@ class Language extends Widget
                     $label = $this->icon;
                     break;
                 case MenuItem::TYPE_DISPLAY['icon-text']:
-                    $label = $this->icon . Module::t($text);
+                    $label = $this->icon . Html::encode(Module::t($text));
                     break;
                 case MenuItem::TYPE_DISPLAY['text']:
-                    $label = Module::t($text);
+                    $label = Html::encode(Module::t($text));
                     break;
                 default:
-                    $label = $this->icon . Module::t($text);
+                    $label = $this->icon . Html::encode(Module::t($text));
                     break;
             }
         } else {
-            $label = $this->icon . Module::t($text);
+            $label = $this->icon . Html::encode(Module::t($text));
         }
 
         return $label;

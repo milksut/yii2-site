@@ -3,6 +3,7 @@
 use portalium\menu\models\MenuItem;
 use portalium\site\bundles\ProfileAsset;
 use portalium\site\Module;
+use yii\helpers\Html;
 
 ProfileAsset::register($this);
 
@@ -23,14 +24,14 @@ if ($placement == 'top-to-bottom') {
 <li class="nav-item dropdown <?= $placementStyle ?>">
     <a href="#" class="nav-link dropdown-toggle profile flex-column" data-bs-toggle="dropdown" data-bs-placement="<?php echo $placement?> " aria-expanded="false">
         <?php if ($model !== null) : ?>
-            <img src="<?= $filePath ?>" alt="<?= $title ?>" width="<?= $iconSize ?>" height="<?= $iconSize ?>" class="rounded-circle flex-column">
+            <img src="<?= Html::encode($filePath) ?>" alt="<?= Html::encode($title) ?>" width="<?= (int) $iconSize ?>" height="<?= (int) $iconSize ?>" class="rounded-circle flex-column">
             <span class="photo-label flex-column"><?= $label ?></span>
 
         <?php else : ?>
             <span class="ımagelabel">
-                <span class="profile-picture initials"><?= $usernameInitial ?></span>
+                <span class="profile-picture initials"><?= Html::encode($usernameInitial) ?></span>
                 <?php if ($first_name !== null && $first_name !== '') : ?>
-                    <span class="profile-name"><?php echo $first_name ?></span>
+                    <span class="profile-name"><?= Html::encode($first_name) ?></span>
                 <?php endif; ?>
             </span>
         <?php endif; ?>
@@ -39,13 +40,13 @@ if ($placement == 'top-to-bottom') {
         <li>
             <div class="d-flex flex-column text-center p-3">
                 <?php if ($model !== null) : ?>
-                    <img src="<?= $filePath ?>" alt="<?= $title ?>" width="80" height="80" class="rounded-circle mx-auto mb-3">
+                    <img src="<?= Html::encode($filePath) ?>" alt="<?= Html::encode($title) ?>" width="80" height="80" class="rounded-circle mx-auto mb-3">
                 <?php else : ?>
-                    <span class="profile-picture initials rounded-circle mx-auto mb-3" style=""><?= $usernameInitial ?></span>
+                    <span class="profile-picture initials rounded-circle mx-auto mb-3" style=""><?= Html::encode($usernameInitial) ?></span>
                 <?php endif; ?>
-                <span><?= $username ?></span>
+                <span><?= Html::encode($username) ?></span>
                 <?php if ($first_name !== null || $last_name !== null) : ?>
-                    <div class="small"><?= $first_name . " " . $last_name ?></div>
+                    <div class="small"><?= Html::encode($first_name . " " . $last_name) ?></div>
                 <?php endif; ?>
             </div>
         </li>

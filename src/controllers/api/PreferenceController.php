@@ -9,7 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\BadRequestHttpException;
 use portalium\site\models\Preference;
 use portalium\site\models\Setting;
-use portalium\site\models\SettingValue;
+use yii\filters\auth\HttpBearerAuth;
 
 class PreferenceController extends Controller
 {
@@ -19,6 +19,11 @@ class PreferenceController extends Controller
 
         $behaviors['contentNegotiator']['formats']['application/json']
             = Response::FORMAT_JSON;
+
+        
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::class,
+        ];
 
         return $behaviors;
     }
